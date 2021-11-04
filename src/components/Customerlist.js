@@ -26,6 +26,21 @@ function Customerlist() {
       .catch((err) => console.error(err));
   };
 
+  const deleteCustomer = (url) => {
+    if (window.confirm("Are you sure?")) {
+      fetch(url, { method: "DELETE" })
+        .then((response) => {
+          if (response.ok) {
+            setOpen(true);
+            fetchCustomers();
+          } else {
+            alert("Something went wrong");
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  };
+
   const addCustomer = (customer) => {
     fetch("https://customerrest.herokuapp.com/api/customers", {
       method: "POST",
@@ -46,6 +61,22 @@ function Customerlist() {
     { field: "city", sortable: true, filter: true },
     { field: "email", sortable: true, filter: true },
     { field: "phone", sortable: true, filter: true },
+    {
+      headerName: "",
+      sortable: false,
+      filter: false,
+      width: 120,
+      field: "links.0.href",
+      cellRendererFramework: (params) => (
+        <Button
+          size="small"
+          color="error"
+          onClick={() => deleteCustomer(params.value)}
+        >
+          Delete
+        </Button>
+      ),
+    },
   ];
 
   return (
@@ -65,7 +96,7 @@ function Customerlist() {
       </div>
       <Snackbar
         open={open}
-        message="Car deleted successfully"
+        message="Customer deleted successfully"
         autoHideDuration={2000}
         onClose={handleClose}
         />
