@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import Button from "@mui/material/Button";
-import Snackbar from '@mui/material/Snackbar';
+import Snackbar from "@mui/material/Snackbar";
+import AddCustomer from "./AddCustomer";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-material.css";
@@ -25,6 +26,18 @@ function Customerlist() {
       .catch((err) => console.error(err));
   };
 
+  const addCustomer = (customer) => {
+    fetch("https://customerrest.herokuapp.com/api/customers", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(customer),
+    })
+      .then((response) => fetchCustomers())
+      .catch((err) => console.error(err));
+  };
+
   const columns = [
     { field: "firstname", sortable: true, filter: true },
     { field: "lastname", sortable: true, filter: true },
@@ -37,6 +50,7 @@ function Customerlist() {
 
   return (
     <div>
+       <AddCustomer addCustomer={addCustomer} />
       <div
         className="ag-theme-material"
         style={{ marginTop: 20, height: 600, width: "90%", margin: "auto" }}
