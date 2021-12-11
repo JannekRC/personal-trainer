@@ -7,12 +7,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
-function AddActivity(props) {
+function AddTraining(props) {
   const [open, setOpen] = React.useState(false);
-  const [activity, setActivity] = React.useState({
+  const [training, setTraining] = React.useState({
     activity: "",
     duration: "",
     date: "",
+    customer: "https://customerrest.herokuapp.com/api/customers/",
   });
 
   const handleClickOpen = () => {
@@ -24,26 +25,26 @@ function AddActivity(props) {
   };
 
   const handleSave = () => {
-    props.addActivity(activity);
+    props.addActivity(training);
     handleClose();
   };
 
   const inputChanged = (event) => {
-    setActivity({ ...activity, [event.target.name]: event.target.value });
+    setTraining({ ...training, [event.target.name]: event.target.value });
   };
 
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Add new activity
+        Add new Training
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New activity</DialogTitle>
+        <DialogTitle>New Training</DialogTitle>
         <DialogContent>
           <TextField
             margin="dense"
             name="activity"
-            value={activity.activity}
+            value={training.activity}
             onChange={inputChanged}
             label="Activity"
             fullWidth
@@ -52,7 +53,7 @@ function AddActivity(props) {
           <TextField
             margin="dense"
             name="duration"
-            value={activity.duration}
+            value={training.duration}
             onChange={inputChanged}
             label="Duration"
             fullWidth
@@ -61,7 +62,7 @@ function AddActivity(props) {
           <TextField
             margin="dense"
             name="date"
-            value={activity.date}
+            value={training.date}
             onChange={inputChanged}
             label="Date"
             fullWidth
@@ -77,4 +78,4 @@ function AddActivity(props) {
   );
 }
 
-export default AddActivity;
+export default AddTraining;

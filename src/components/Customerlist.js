@@ -3,6 +3,7 @@ import { AgGridReact } from "ag-grid-react";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import AddCustomer from "./AddCustomer";
+import AddTraining from "./AddTraining";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-material.css";
@@ -53,6 +54,18 @@ function Customerlist() {
       .catch((err) => console.error(err));
   };
 
+  const addTraining = (customer) => {
+    fetch("https://customerrest.herokuapp.com/api/trainings", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(customer),
+    })
+      .then((response) => fetchCustomers())
+      .catch((err) => console.error(err));
+  };
+
   const columns = [
     { field: "firstname", sortable: true, filter: true },
     { field: "lastname", sortable: true, filter: true },
@@ -61,6 +74,22 @@ function Customerlist() {
     { field: "city", sortable: true, filter: true },
     { field: "email", sortable: true, filter: true },
     { field: "phone", sortable: true, filter: true },
+    {
+      headerName: "",
+      sortable: false,
+      filter: false,
+      width: 120,
+      field: "links.0.href",
+      cellRendererFramework: (params) => (
+        <Button
+          size="small"
+          color="info"
+          onClick={() => addTraining(params.value)}
+        >
+          Add
+        </Button>
+      ),
+    },
     {
       headerName: "",
       sortable: false,
