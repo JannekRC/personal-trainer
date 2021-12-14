@@ -1,11 +1,13 @@
 import React from "react";
 
 import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { AddCircle } from "@mui/icons-material";
 
 function AddTraining(props) {
   const [open, setOpen] = React.useState(false);
@@ -25,7 +27,7 @@ function AddTraining(props) {
   };
 
   const handleSave = () => {
-    props.addActivity(training);
+    props.addTraining(training);
     handleClose();
   };
 
@@ -35,9 +37,11 @@ function AddTraining(props) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Add new Training
-      </Button>
+      <Tooltip title="Add training">
+        <Button onClick={handleClickOpen}>
+          <AddCircle color="success" />
+        </Button>
+      </Tooltip>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>New Training</DialogTitle>
         <DialogContent>

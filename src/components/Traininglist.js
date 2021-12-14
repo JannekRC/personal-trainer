@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
-import { format, formatDistance, formatRelative, subDays, formatISO } from "date-fns";
+import Tooltip from "@mui/material/Tooltip";
+import { format } from "date-fns";
+import { Delete } from "@mui/icons-material";
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-material.css";
@@ -56,45 +58,48 @@ function Traininglist() {
   };
 
   const columns = [
-    { field: "activity", sortable: true, filter: true },
+    { field: "activity", sortable: true, filter: true, width: 140 },
     {
       field: "date",
       sortable: true,
       filter: true,
+      width: 160,
       valueFormatter: (params) => {
         return format(new Date(params.value), "dd.MM.y HH:mm");
-      }
+      },
     },
-    { field: "duration", sortable: true, filter: true },
+    { field: "duration", sortable: true, filter: true, width: 120 },
     {
       field: "customer",
       sortable: true,
       filter: true,
+      width: 180,
       valueFormatter: (params) => {
-        return (params.value).firstname + " " + (params.value).lastname;
-      }
+        return params.value.firstname + " " + params.value.lastname;
+      },
     },
     {
       headerName: "",
       sortable: false,
       filter: false,
-      width: 120,
+      width: 80,
       field: "id",
       cellRendererFramework: (params) => (
-        <Button
-          size="small"
-          color="error"
-          onClick={() => deleteTraining(params.value)}
-        >
-          Delete
-        </Button>
-      )
+        <Tooltip title="Delete">
+          <Button
+            size="small"
+            color="error"
+            onClick={() => deleteTraining(params.value)}
+          >
+            <Delete />
+          </Button>
+        </Tooltip>
+      ),
     },
   ];
 
   return (
     <div>
-      {/* <AddTraining addTraining={addTraining} /> */}
       <div
         className="ag-theme-material"
         style={{ marginTop: 20, height: 600, width: "90%", margin: "auto" }}
